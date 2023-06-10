@@ -1,0 +1,26 @@
+@import '../../constants.scss';
+
+.authLayout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: center / cover no-repeat url("https://cdn.wallpapersafari.com/39/92/wdHPeE.jpg");
+    padding: 0 15px;
+}
+
+.authLayoutFormBlock{
+    background-color: $whiteColor;
+    padding: 25px 20px;
+    border-radius: 5px;
+    width: 500px;
+    text-align: center;
+
+    &__title, &__description{
+        text-align: center;
+    }
+
+    &__description{
+        color: $lightTextColor;
+    }
+}

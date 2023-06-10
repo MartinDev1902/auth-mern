@@ -1,0 +1,11 @@
+.form{
+    margin: 20px 0 30px;
+
+    & > div {
+        margin-bottom: 20px;
+    }
+}
+
+.recoveryLink{
+    text-align: right;
+}

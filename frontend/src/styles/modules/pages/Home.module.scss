@@ -1,0 +1,13 @@
+.home{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background: center / cover no-repeat url("https://static.vecteezy.com/system/resources/previews/006/469/230/original/abstract-white-and-gray-light-gradient-lines-background-free-vector.jpg");
+    text-align: center;
+    
+    ul{
+        margin: 20px 0;
+    }
+}
