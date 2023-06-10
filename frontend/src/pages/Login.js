@@ -2,6 +2,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import styles from "../styles/modules/pages/Auth.module.scss";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 
@@ -15,12 +16,12 @@ const Login = () => {
             <form onSubmit={onSubmit} className={styles.form}>
                 <Input placeholder={"example@gmail.com"} label={"Email"} name={"email"} type={"email"}/>
                 <Input placeholder={"*************"} label={"Password"} name={"password"} type={"password"}/>
-                <div className={styles.recoveryLink}>Forgot password? <a href="google.com">Recovery</a></div>
+                <div className={styles.recoveryLink}>Forgot password? <Link to="/recovery">Recovery</Link></div>
                 <Button>Login</Button>
             </form>
 
             <div>
-                Don't have an account? <a href="google.com">Register</a>
+                Don't have an account? <Link to="/register">Register</Link>
             </div>
         </AuthLayout>
     )

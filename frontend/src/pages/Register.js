@@ -2,6 +2,7 @@ import Input from "../components/Input"
 import Button from "../components/Button"
 import AuthLayout from "../layouts/AuthLayout"
 import styles from "../styles/modules/pages/Auth.module.scss"
+import { Link } from "react-router-dom"
 
 const Register = () => {
 
@@ -19,7 +20,7 @@ const Register = () => {
                 <Button>Register</Button>
             </form>
 
-            <div>Don't have an account? <a href="google.com">Login</a></div>
+            <div>Don't have an account? <Link to="/login">Login</Link></div>
         </AuthLayout>
     )
 }
