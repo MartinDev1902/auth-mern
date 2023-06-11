@@ -4,8 +4,11 @@ import AuthLayout from "../layouts/AuthLayout"
 import styles from "../styles/modules/pages/Auth.module.scss"
 import { Link } from "react-router-dom"
 import useValidation from "../hooks/useValidation"
+import { useDispatch } from "react-redux"
+import { register } from "../store/reducers/auth"
 
 const Register = () => {
+    const dispatch = useDispatch();
 
     const {values, errors, handleChange, handleSubmit} = useValidation(
         {fullName: '', email: '', password: ''},
@@ -17,9 +20,7 @@ const Register = () => {
         )
 
         
-    const submitForm = data => {
-        console.log(data)
-    }
+    const submitForm = data => dispatch(register(data))
 
     return(
         <AuthLayout title={"Register"} description={"This is form for registration on our Service"}>

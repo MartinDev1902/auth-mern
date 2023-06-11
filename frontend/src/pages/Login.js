@@ -4,8 +4,12 @@ import Button from "../components/Button";
 import styles from "../styles/modules/pages/Auth.module.scss";
 import { Link } from "react-router-dom";
 import useValidation from "../hooks/useValidation";
+import { useDispatch } from "react-redux";
+import { login } from "../store/reducers/auth";
 
 const Login = () => {
+
+    const dispatch = useDispatch()
 
     const {values, errors, handleChange, handleSubmit} = useValidation(
         { email: '', password: ''},
@@ -16,9 +20,8 @@ const Login = () => {
         )
 
 
-        const submitForm = data => {
-            console.log(data)
-        }
+    const submitForm = data => dispatch(login(data))
+    
     return(
         <AuthLayout title={"Login"} description={"This is form for logining in our Service"}>
             <form onSubmit={e => handleSubmit(e, submitForm)} className={styles.form}>
