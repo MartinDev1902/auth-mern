@@ -9,13 +9,33 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        test: (state, action) => {
-            console.log(state)
+        autoLogin: (state, action) => {
+            const token = localStorage.getItem('accessToken')
+        
+            if(!token){
+                state.token = null;
+                localStorage.removeItem('accessToken')
+                localStorage.removeItem('expirationDate')
+            }else{
+                const expirationDate = new Date(localStorage.getItem('expirationDate'))
+            
+                if(expirationDate <= new Date()){
+                    state.token = null;
+                    localStorage.removeItem('accessToken')
+                    localStorage.removeItem('expirationDate')
+                }
+                else{
+                    console.log('Logined')
+                    state.token = token
+                }
+            }
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(register.fulfilled, (state, action) => {
-            console.log(state, action)
+        builder.addCase(register.fulfilled, (state, {payload}) => {
+            state.token = payload.token
+            localStorage.setItem('accessToken', payload.token)
+            localStorage.setItem('expirationDate', payload.expirationDate)
         })
 
         builder.addCase(login.fulfilled, (state, action) => {
@@ -44,5 +64,13 @@ export const login = createAsyncThunk('auth/login', async (user) => {
     }
 })
 
-export const {test} = authSlice.actions
+export const logout = createAsyncThunk('auth/logout', async () => {
+    try{
+
+    }catch(error){
+        console.log(error)
+    }
+})
+
+export const {autoLogin} = authSlice.actions
 export default authSlice.reducer

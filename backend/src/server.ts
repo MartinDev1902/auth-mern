@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import Routes from './routes'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 
 class Server {
     public app: Application
@@ -28,11 +29,8 @@ class Server {
                 origin: true
             }))
             this.app.use(bodyParser.json())
+            this.app.use(cookieParser())
             this.app.use(Routes)
-            this.app.get('/', (req: Request, res: Response) => {
-                res.send("Hello server 1")
-            })
-
 
             this.app.listen(this.port, () => {
                 console.log(`Server running on port ${this.port}`);
