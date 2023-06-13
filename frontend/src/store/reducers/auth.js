@@ -49,6 +49,12 @@ const authSlice = createSlice({
             localStorage.removeItem('accessToken')
             localStorage.removeItem('expirationDate')
         })
+
+        builder.addCase(refresh.fulfilled, (state, {payload}) => {
+            state.token = payload.token
+            localStorage.setItem('accessToken', payload.token)
+            localStorage.setItem('expirationDate', payload.expirationDate)
+        })
     }
 })
 
@@ -76,6 +82,15 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     try{
         const response = await authApi.logout()
         return response.data
+    }catch(error){
+        console.log(error)
+    }
+})
+
+export const refresh = createAsyncThunk('auth/refresh', async () => {
+    try{
+        const responce = await authApi.refresh()
+        return responce.data
     }catch(error){
         console.log(error)
     }

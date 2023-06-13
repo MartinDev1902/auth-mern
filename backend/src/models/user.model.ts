@@ -2,24 +2,12 @@ import { IUser, IUserMethods } from "../interfaces/IUser";
 import mongoose, {Model, Schema} from "mongoose";
 import jwt from 'jsonwebtoken'
 
-// interface IUserModel extends IUser, Document{}
-
 type UserModel = Model<IUser, {}, IUserMethods>
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
-    fullName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
+    fullName: { type: String, required: true},
+    email: { type: String, required: true, unique: true},
+    password: { type: String, required: true}
 })
 
 UserSchema.static('createAccessToken', function createAccessToken (id: any){
