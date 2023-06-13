@@ -1,9 +1,12 @@
-import { IUser } from "../interfaces/IUser";
-import mongoose, {Document, Schema} from "mongoose";
+import { IUser, IUserMethods } from "../interfaces/IUser";
+import mongoose, {Model, Schema} from "mongoose";
+import jwt from 'jsonwebtoken'
 
-interface IUserModel extends IUser, Document{}
+// interface IUserModel extends IUser, Document{}
 
-const UserShema = new Schema<IUserModel>({
+type UserModel = Model<IUser, {}, IUserMethods>
+
+const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     fullName: {
         type: String,
         required: true
@@ -19,6 +22,17 @@ const UserShema = new Schema<IUserModel>({
     }
 })
 
-const UserModel = mongoose.model<IUserModel>("User", UserShema)
+UserSchema.static('createAccessToken', function createAccessToken (id: any){
+    //@ts-ignore
+    return jwt.sign({id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '2h'})
+})
 
-export default UserModel;
+UserSchema.static('createRefreshToken', function createRefreshToken(id: any){
+    //@ts-ignore
+    return jwt.sign({id}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d'})
+})
+
+
+const User = mongoose.model<IUser, UserModel>("User", UserSchema)
+
+export default User;

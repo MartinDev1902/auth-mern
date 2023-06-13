@@ -38,8 +38,14 @@ const authSlice = createSlice({
             localStorage.setItem('expirationDate', payload.expirationDate)
         })
 
-        builder.addCase(login.fulfilled, (state, action) => {
-            console.log(state, action)
+        builder.addCase(login.fulfilled, (state, {payload}) => {
+            state.token = payload.token
+            localStorage.setItem('accessToken', payload.token)
+            localStorage.setItem('expirationDate', payload.expirationDate)
+        })
+
+        builder.addCase(logout.fulfilled, (state, action) => {
+
         })
     }
 })
