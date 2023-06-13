@@ -45,7 +45,9 @@ const authSlice = createSlice({
         })
 
         builder.addCase(logout.fulfilled, (state, action) => {
-
+            state.token = null;
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('expirationDate')
         })
     }
 })
@@ -72,7 +74,8 @@ export const login = createAsyncThunk('auth/login', async (user) => {
 
 export const logout = createAsyncThunk('auth/logout', async () => {
     try{
-
+        const response = await authApi.logout()
+        return response.data
     }catch(error){
         console.log(error)
     }

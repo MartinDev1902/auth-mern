@@ -13,6 +13,7 @@ class UserRoutes {
     init():void {
         this.router.route('/register').post(UserController.register)
         this.router.route('/login').post(UserController.login)
+        this.router.route('/logout').get(UserController.logout)
     }
 }
 

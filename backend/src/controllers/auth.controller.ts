@@ -14,14 +14,11 @@ class UserController{
         user.save().then(() => {
 
             //@ts-ignore
-            const token = jwt.sign({id: user._id}, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '2h',
-            })
-            const expirationDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toString();
+            const token = User.createAccessToken(user._id)
             //@ts-ignore
-            const refreshToken = jwt.sign({id: user._id}, process.env.REFRESH_TOKEN_SECRET, {
-                expiresIn: '7d',
-            })
+            const refreshToken = User.createRefreshToken(user?._id)
+            const expirationDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toString();
+            
             res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7})
             
             return res.status(200).send({token, expirationDate})
@@ -51,12 +48,13 @@ class UserController{
         
 
         }catch(error){
-
+            console.log(error)
         }
     }
 
     static logout(req: Request, res: Response): void{
-        res.send('LogOut')
+        res.cookie('refreshToken', '', {httpOnly: true, expires: new Date(Date.now() + 5 * 1000),});
+        res.status(200).send("Logout successful");
     }
 }
 
