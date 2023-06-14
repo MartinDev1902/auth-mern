@@ -57,21 +57,27 @@ class UserController{
         res.status(200).send("Logout successful");
     }
 
-    static refreshToken(req: Request, res: Response): void {
-        console.log(req.headers.cookie?.split('=')[1])
-        //@ts-ignore
-        const decoded = jwt.verify(req.headers.cookie?.split('=')[1], process.env.REFRESH_TOKEN_SECRET)
-        //@ts-ignore
-        if(decoded.exp > Math.floor(Date.now() / 1000)){
+    static refreshToken(req: Request, res: Response) {
+        const token = req.headers.cookie?.split('=')[1]
+
+        if(token){
             //@ts-ignore
-            const token = User.createAccessToken(decoded._id)
+            const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
             //@ts-ignore
-            const refreshToken = User.createRefreshToken(decoded?._id)
-            const expirationDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toString();
-            res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7})
-            
-            res.status(200).send({token, expirationDate})
+            if(decoded.exp > Math.floor(Date.now() / 1000)){
+                //@ts-ignore
+                const token = User.createAccessToken(decoded._id)
+                //@ts-ignore
+                const refreshToken = User.createRefreshToken(decoded?._id)
+                const expirationDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toString();
+                res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7})
+                
+                return res.status(200).send({token, expirationDate})
+            }
         }
+
+        return res.status(404).send("Token is undefined")
+        
     }
 }
 
