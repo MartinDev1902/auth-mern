@@ -2,7 +2,9 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import authApi from '../../api/auth'
 
 const initialState = {
-    token: null
+    token: null,
+    fullName: null,
+    email: null
 }
 
 const authSlice = createSlice({
@@ -39,6 +41,11 @@ const authSlice = createSlice({
 
         builder.addCase(autoLogin.fulfilled, (state, {payload}) => {
             state.token = payload
+        })
+
+        builder.addCase(getUser.fulfilled, (state, {payload}) => {
+            state.fullName = payload.fullName
+            state.email = payload.email
         })
     }
 })
@@ -97,6 +104,16 @@ export const autoLogin = createAsyncThunk('auth/autoLogin', async(_, {dispatch})
             }
         }
     
+    }catch(error){
+        console.log(error)
+    }
+})
+
+
+export const getUser = createAsyncThunk('auth/getUser', async (id) => {
+    try{
+        const response = await authApi.getUser(id)
+        return response.data
     }catch(error){
         console.log(error)
     }

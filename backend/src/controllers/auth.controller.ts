@@ -79,6 +79,15 @@ class UserController{
         return res.status(404).send("Token is undefined")
         
     }
+
+    static async getUser(req: Request, res: Response) {
+        const user = await User.findOne({_id: req.query.id})
+
+        res.send({
+            fullName: user?.fullName,
+            email: user?.email
+        })
+    }
 }
 
 export default UserController

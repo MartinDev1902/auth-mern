@@ -15,6 +15,7 @@ class UserRoutes {
         this.router.route('/login').post(UserController.login)
         this.router.route('/logout').get(UserController.logout)
         this.router.route('/refresh').post(UserController.refreshToken)
+        this.router.route('/').get(UserController.getUser)
     }
 }
 
