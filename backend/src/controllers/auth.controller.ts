@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import User from "../models/user.model";
 import jwt from 'jsonwebtoken'
 
-class UserController{
+class AuthController{
     static async register(req: Request, res: Response) {
         const password = await bcrypt.hash(req.body.password, 10)
         const user = new User({
@@ -90,4 +90,4 @@ class UserController{
     }
 }
 
-export default UserController
+export default AuthController

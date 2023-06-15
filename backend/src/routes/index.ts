@@ -1,5 +1,6 @@
 import { Router } from "express";
-import UserRoutes from './auth.routes'
+import AuthRoutes from './auth.routes'
+import UsersRoutes from "./users.routes";
 
 class Routes {
     public router: Router
@@ -7,7 +8,8 @@ class Routes {
     constructor(){
         this.router = Router()
 
-        this.router.use('/users', UserRoutes)
+        this.router.use('/auth', AuthRoutes)
+        this.router.use('/users', UsersRoutes)
     }
 }
 

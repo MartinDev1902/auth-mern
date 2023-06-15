@@ -1,7 +1,7 @@
 import { Router } from "express";
-import UserController from "../controllers/auth.controller";
+import AuthController from "../controllers/auth.controller";
 
-class UserRoutes {
+class AuthRoutes {
     public router: Router
 
     constructor(){
@@ -11,12 +11,12 @@ class UserRoutes {
     }
 
     init():void {
-        this.router.route('/register').post(UserController.register)
-        this.router.route('/login').post(UserController.login)
-        this.router.route('/logout').get(UserController.logout)
-        this.router.route('/refresh').post(UserController.refreshToken)
-        this.router.route('/').get(UserController.getUser)
+        this.router.route('/register').post(AuthController.register)
+        this.router.route('/login').post(AuthController.login)
+        this.router.route('/logout').get(AuthController.logout)
+        this.router.route('/refresh').post(AuthController.refreshToken)
+        this.router.route('/').get(AuthController.getUser)
     }
 }
 
-export default new UserRoutes().router
+export default new AuthRoutes().router

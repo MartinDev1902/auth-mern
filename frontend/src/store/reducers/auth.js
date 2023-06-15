@@ -2,9 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import authApi from '../../api/auth'
 
 const initialState = {
-    token: null,
-    fullName: null,
-    email: null
+    token: null
 }
 
 const authSlice = createSlice({
@@ -30,7 +28,7 @@ const authSlice = createSlice({
             localStorage.removeItem('expirationDate')
         })
 
-        builder.addCase(refresh.fulfilled, (state, {payload, type}) => {  
+        builder.addCase(refresh.fulfilled, (state, {payload}) => {  
             if(payload){
                 state.token = payload.token
                 localStorage.setItem('accessToken', payload.token)
@@ -43,10 +41,7 @@ const authSlice = createSlice({
             state.token = payload
         })
 
-        builder.addCase(getUser.fulfilled, (state, {payload}) => {
-            state.fullName = payload.fullName
-            state.email = payload.email
-        })
+       
     }
 })
 
@@ -110,14 +105,6 @@ export const autoLogin = createAsyncThunk('auth/autoLogin', async(_, {dispatch})
 })
 
 
-export const getUser = createAsyncThunk('auth/getUser', async (id) => {
-    try{
-        const response = await authApi.getUser(id)
-        return response.data
-    }catch(error){
-        console.log(error)
-    }
-})
 
 //export const {} = authSlice.actions
 export default authSlice.reducer
